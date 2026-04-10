@@ -1,137 +1,60 @@
-# 💰 ETL & Análise de Gastos Públicos do Governo Federal
+# Análise de Gastos Públicos do Governo Federal
 
-Projeto de portfólio completo com **pipeline ETL**, **banco de dados** e **dashboards interativos** para análise de gastos públicos do governo federal brasileiro.
+Este projeto tem como objetivo explorar a base de dados de execução orçamentária do governo federal brasileiro, disponibilizada pelo Portal da Transparência. A ideia surgiu da necessidade de entender melhor como os recursos públicos são distribuídos entre órgãos, regiões e finalidades, e de identificar padrões que normalmente ficam escondidos em planilhas brutas.
 
----
+## O que está sendo analisado
 
-## 📌 Objetivo
+A base cobre os lançamentos de despesa pública federal, com informações sobre quais órgãos gastaram, onde os recursos foram aplicados geograficamente, qual foi a finalidade do gasto e como se comportou a execução ao longo do tempo. A partir disso, o projeto busca responder perguntas como:
 
-Construir uma solução de dados de ponta a ponta que:
-1. **Extrai** dados de gastos públicos do [Portal da Transparência](https://portaldatransparencia.gov.br/)
-2. **Limpa e padroniza** os dados com Pentaho PDI
-3. **Carrega** os dados tratados em um banco de dados relacional
-4. **Analisa e visualiza** os gastos através de dashboards interativos no Power BI
+- Quais ministérios e órgãos concentram o maior volume de recursos?
+- Quais estados e municípios recebem mais investimentos federais?
+- Como os parlamentares direcionam recursos via emendas?
+- Qual a diferença entre o que foi empenhado e o que foi efetivamente pago?
+- Quais funções de governo apresentam melhor taxa de execução?
 
----
+## Arquitetura do projeto
 
-## 🛠️ Tecnologias Utilizadas
+Os dados passam por um processo de ETL construído no Pentaho Data Integration (PDI), que organiza a base bruta em um modelo star schema armazenado no MySQL. Esse modelo foi escolhido por permitir consultas analíticas mais rápidas e um Power BI mais responsivo, sem depender de uma base flat com dezenas de colunas repetidas.
 
-| Ferramenta | Função |
+O modelo é composto por uma tabela fato central e sete dimensões:
+
+| Tabela | Descrição |
 |---|---|
-| Pentaho PDI (Kettle) | Pipeline ETL |
-| Portal da Transparência | Fonte dos dados |
-| PostgreSQL / MySQL | Banco de dados de destino |
-| Power BI | Dashboards e análises |
-| Git | Versionamento do projeto |
+| fato_execucao | Valores financeiros por lançamento (empenhado, liquidado, pago, restos a pagar) |
+| dim_tempo | Ano, mês e trimestre do lançamento |
+| dim_orgao | Órgão superior, subordinado e unidade gestora |
+| dim_orcamento | Função, subfunção, programa orçamentário e ação |
+| dim_geografica | UF e município de aplicação dos recursos |
+| dim_despesa | Categoria econômica, grupo, elemento e modalidade da despesa |
+| dim_emenda | Autor da emenda parlamentar |
 
----
 
-## 📁 Estrutura do Projeto
+## Estrutura do repositório
 
 ```
 projeto_gastos_gov/
-├── transformations/       # Arquivos .ktr (transformações de dados)
-├── jobs/                  # Arquivos .kjb (orquestração do fluxo)
-├── input/                 # Arquivos de entrada (CSV do Portal da Transparência)
-├── output/                # Arquivos gerados após o processamento
-├── dashboards/            # Arquivo .pbix e prints do Power BI
-├── docs/                  # Prints e documentação do Pentaho PDI
-└── README.md              # Este arquivo
+├── jobs/                      # Orquestração do ETL (arquivos .kjb)
+├── transformations/
+│   ├── dims/                  # Transformations de carga das dimensões (.ktr)
+│   └── fato/                  # Transformation de carga da tabela fato (.ktr)
+├── sql/                       # Scripts DDL de criação das tabelas no MySQL
+├── input/                     # Arquivos CSV da fonte (não versionados)
+├── output/                    # Exportações pontuais pós-ETL
+├── dashboards/                # Arquivos Power BI (.pbix)
+└── .gitignore
 ```
 
----
+## Tecnologias utilizadas
 
-## 🔄 Arquitetura da Solução
+- **Pentaho Data Integration (PDI)** — ETL e modelagem
+- **MySQL** — armazenamento do data warehouse
+- **Power BI** — visualização e dashboards
+- **Git / GitHub** — versionamento do projeto
 
-```
-Portal da Transparência
-        │
-        ▼
-  [ Extração ]
-  Download CSV mensal
-        │
-        ▼
-  [ Limpeza e Padronização — Pentaho PDI ]
-  - Remoção de registros duplicados
-  - Padronização de datas (dd/MM/yyyy → yyyy-MM-dd)
-  - Padronização de valores monetários
-  - Tratamento de campos nulos
-  - Normalização de nomes de órgãos
-        │
-        ▼
-  [ Banco de Dados — PostgreSQL/MySQL ]
-  Tabelas estruturadas e prontas para análise
-        │
-        ▼
-  [ Dashboards — Power BI ]
-  Visualizações e insights sobre os gastos
-```
+## Fonte dos dados
 
----
+Os dados são extraídos do Portal da Transparência do Governo Federal, disponível em [portaldatransparencia.gov.br](https://portaldatransparencia.gov.br). A base contempla os lançamentos de despesa com detalhamento por órgão, localidade, classificação orçamentária e valores em todas as etapas da execução.
 
-## 📊 Dashboards
+## Status
 
-Os dashboards foram desenvolvidos no **Power BI** conectado diretamente ao banco de dados, permitindo análises como:
-
-- 📈 Evolução dos gastos por período
-- 🏛️ Gastos por órgão e ministério
-- 🗂️ Distribuição por categoria de despesa
-- 🌎 Gastos por região e estado
-- 🔍 Maiores fornecedores e beneficiários
-
-> Prints e o arquivo `.pbix` estão disponíveis na pasta `dashboards/`
-
----
-
-## 📥 Fonte dos Dados
-
-- **Portal da Transparência:** https://portaldatransparencia.gov.br/download-de-dados
-- Dados disponíveis: Despesas, Transferências, Bolsa Família, Servidores, etc.
-- Formato: CSV (separado por `;`)
-- Atualização: mensal
-
----
-
-## ▶️ Como Executar
-
-### Pré-requisitos
-- Pentaho PDI 9.x instalado
-- Java 11+
-- PostgreSQL ou MySQL configurado
-- Power BI Desktop instalado
-
-### Passos
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/projeto_gastos_gov.git
-```
-
-2. Abra o Pentaho Spoon e conecte ao repositório local (File Repository)
-
-3. Coloque o arquivo CSV na pasta `input/`
-
-4. Execute o Job principal em `jobs/`
-
-5. Abra o arquivo `.pbix` na pasta `dashboards/` no Power BI Desktop
-
-6. Atualize a conexão com o seu banco de dados local
-
----
-
-## 📸 Evidências
-
-> _Prints das transformações, jobs e dashboards serão adicionados nas pastas `docs/` e `dashboards/`_
-
----
-
-## 👤 Autor
-
-**Adne Ronaldo**  
-[LinkedIn](#) • [GitHub](#)
-
----
-
-## 📄 Licença
-
-Este projeto é de uso educacional e está sob a licença MIT.
+Projeto em desenvolvimento. O modelo de dados e o ETL estão sendo construídos. Os dashboards serão desenvolvidos na sequência.
