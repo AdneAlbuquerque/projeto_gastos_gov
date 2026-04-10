@@ -1,0 +1,21 @@
+# Arquivos de saída gerados
+output/*
+!output/.gitkeep
+
+# Arquivos de entrada (podem ser grandes)
+input/*.csv
+input/*.xlsx
+input/*.zip
+!input/.gitkeep
+
+# Logs do Pentaho
+*.log
+logs/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configurações locais sensíveis (senhas de banco)
+*.properties
+kettle.properties
