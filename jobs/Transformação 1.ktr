@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
     <name>Transformação 1</name>
@@ -5,7 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <directory>/jobs</directory>
+    <directory>/</directory>
     <parameters>
     </parameters>
     <log>
@@ -429,30 +430,40 @@
     <created_date>2026/04/10 17:16:58.052</created_date>
     <modified_user>-</modified_user>
     <modified_date>2026/04/10 19:37:11.065</modified_date>
-    <key_for_session_key/>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <order>
     <hop>
-      <from>CSV file input</from>
+      <from>padroniza valores </from>
+      <to>User defined Java expression</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>padroniza nomes das colunas</from>
+      <to>padroniza valores </to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>altera os valores para number</from>
+      <to>padroniza nomes das colunas</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>User defined Java expression</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Select values</from>
-      <to>String operations</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>String operations</from>
       <to>Select values 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2</from>
-      <to>User defined Java expression</to>
+      <from>CSV file input</from>
+      <to>altera os valores para number</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -460,7 +471,7 @@
     <name>CSV file input</name>
     <type>CsvInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -759,8 +770,8 @@
       </field>
       <field>
         <name>Valor Empenhado (R$)</name>
-        <type>Number</type>
-        <format>#,##0.00</format>
+        <type>BigNumber</type>
+        <format>#</format>
         <currency>R$</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -770,8 +781,8 @@
       </field>
       <field>
         <name>Valor Liquidado (R$)</name>
-        <type>Number</type>
-        <format>#,##0.00</format>
+        <type>BigNumber</type>
+        <format>#</format>
         <currency>R$</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -781,8 +792,8 @@
       </field>
       <field>
         <name>Valor Pago (R$)</name>
-        <type>Number</type>
-        <format>#,##0.00</format>
+        <type>BigNumber</type>
+        <format>#</format>
         <currency>R$</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -792,8 +803,8 @@
       </field>
       <field>
         <name>Valor Restos a Pagar Inscritos (R$)</name>
-        <type>Number</type>
-        <format>#,##0.00</format>
+        <type>BigNumber</type>
+        <format>#</format>
         <currency>R$</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -803,8 +814,8 @@
       </field>
       <field>
         <name>Valor Restos a Pagar Cancelado (R$)</name>
-        <type>Number</type>
-        <format>#,##0.00</format>
+        <type>BigNumber</type>
+        <format>#</format>
         <currency>R$</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -814,8 +825,8 @@
       </field>
       <field>
         <name>Valor Restos a Pagar Pagos (R$)</name>
-        <type>Number</type>
-        <format>#,##0.00</format>
+        <type>BigNumber</type>
+        <format>#</format>
         <currency>R$</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -833,16 +844,16 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>200</xloc>
-      <yloc>100</yloc>
+      <xloc>25</xloc>
+      <yloc>150</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
+    <name>padroniza nomes das colunas</name>
     <type>SelectValues</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -985,13 +996,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>100</yloc>
+      <xloc>550</xloc>
+      <yloc>150</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>String operations</name>
+    <name>padroniza valores </name>
     <type>StringOperations</type>
     <description/>
     <distribute>Y</distribute>
@@ -1031,7 +1042,7 @@
       <field>
         <in_stream_name>nome_orgao_superior</in_stream_name>
         <out_stream_name/>
-        <trim_type>none</trim_type>
+        <trim_type/>
         <lower_upper>none</lower_upper>
         <padding_type>none</padding_type>
         <pad_char/>
@@ -1337,13 +1348,208 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>600</xloc>
-      <yloc>100</yloc>
+      <xloc>775</xloc>
+      <yloc>150</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values 2</name>
+    <name>User defined Java expression</name>
+    <type>Janino</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>uf_tratada</field_name>
+      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : uf.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>tipo_gasto</field_name>
+      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : "Regional"</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>municipio_tratado</field_name>
+      <formula_string>(municipio == null || municipio.trim().isEmpty()) ? "Nacional" : municipio.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>ano_emenda</field_name>
+      <formula_string>(cod_emenda != null &amp;&amp; cod_emenda.trim().length() >= 4) ? cod_emenda.trim().substring(0,4) : "Desconhecido"</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>status_registro</field_name>
+      <formula_string>valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_pagos != 0 ? "Pago em outro periodo" : valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_cancelado != 0 ? "Cancelado sem execucao" : valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Sem execucao" : valor_empenhado == 0 &amp;&amp; valor_liquidado > 0 ? "Execucao sem empenho/periodo anterior" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_inscritos > 0 ? "Empenhado com restos inscritos" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Empenhado nao liquidado" : valor_empenhado > 0 &amp;&amp; valor_liquidado > 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_pagos > 0 ? "Liquidado pago em outro periodo" : valor_empenhado > 0 &amp;&amp; valor_liquidado > 0 &amp;&amp; valor_pago == 0 ? "Liquidado nao pago" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago > 0 ? "Pago sem liquidacao/inconsistencia" : valor_pago > 0 &amp;&amp; valor_pago &lt; valor_liquidado &amp;&amp; valor_restos_cancelado > 0 ? "Pago parcial com cancelamento" : valor_pago > 0 &amp;&amp; valor_pago &lt; valor_liquidado ? "Pago parcial" : valor_pago >= valor_liquidado &amp;&amp; valor_restos_inscritos > 0 ? "Execucao completa com restos pendentes" : "Execucao completa"</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1000</xloc>
+      <yloc>150</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>altera os valores para number</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>Valor Empenhado (R$)</name>
+        <rename>Valor Empenhado (R$)</rename>
+        <type>Number</type>
+        <length>11</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Liquidado (R$)</name>
+        <rename>Valor Liquidado (R$)</rename>
+        <type>Number</type>
+        <length>11</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Pago (R$)</name>
+        <rename>Valor Pago (R$)</rename>
+        <type>Number</type>
+        <length>11</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Restos a Pagar Inscritos (R$)</name>
+        <rename>Valor Restos a Pagar Inscritos (R$)</rename>
+        <type>Number</type>
+        <length>15</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Restos a Pagar Cancelado (R$)</name>
+        <rename>Valor Restos a Pagar Cancelado (R$)</rename>
+        <type>Number</type>
+        <length>7</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Restos a Pagar Pagos (R$)</name>
+        <rename>Valor Restos a Pagar Pagos (R$)</rename>
+        <type>Number</type>
+        <length>10</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>375</xloc>
+      <yloc>150</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1478,534 +1684,33 @@
         <name>valor_restos_pagos</name>
         <rename/>
       </field>
+      <field>
+        <name>uf_tratada</name>
+        <rename/>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+        <rename/>
+      </field>
+      <field>
+        <name>municipio_tratado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ano_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>status_registro</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>ano_mes</name>
-        <rename>ano_mes</rename>
-        <type>None</type>
-        <length>7</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_orgao_superior</name>
-        <rename>cod_orgao_superior</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_orgao_superior</name>
-        <rename>nome_orgao_superior</rename>
-        <type>None</type>
-        <length>43</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_orgao_subordinado</name>
-        <rename>cod_orgao_subordinado</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_orgao_subordinado</name>
-        <rename>nome_orgao_subordinado</rename>
-        <type>None</type>
-        <length>90</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_funcao</name>
-        <rename>cod_funcao</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_funcao</name>
-        <rename>nome_funcao</rename>
-        <type>None</type>
-        <length>21</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_subfuncao</name>
-        <rename>cod_subfuncao</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_subfuncao</name>
-        <rename>nome_subfuncao</rename>
-        <type>None</type>
-        <length>46</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_programa</name>
-        <rename>cod_programa</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_programa</name>
-        <rename>nome_programa</rename>
-        <type>None</type>
-        <length>78</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_acao</name>
-        <rename>cod_acao</rename>
-        <type>None</type>
-        <length>8</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_acao</name>
-        <rename>nome_acao</rename>
-        <type>None</type>
-        <length>131</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
+      <remove>
         <name>uf</name>
-        <rename>uf</rename>
-        <type>None</type>
-        <length>2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
+      </remove>
+      <remove>
         <name>municipio</name>
-        <rename>municipio</rename>
-        <type>None</type>
-        <length>12</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_emenda</name>
-        <rename>cod_emenda</rename>
-        <type>None</type>
-        <length>11</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_autor_emenda</name>
-        <rename>nome_autor_emenda</rename>
-        <type>None</type>
-        <length>29</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_categoria_economica</name>
-        <rename>cod_categoria_economica</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_categoria_economica</name>
-        <rename>nome_categoria_economica</rename>
-        <type>None</type>
-        <length>19</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_grupo_despesa</name>
-        <rename>cod_grupo_despesa</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_grupo_despesa</name>
-        <rename>nome_grupo_despesa</rename>
-        <type>None</type>
-        <length>26</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_elemento_despesa</name>
-        <rename>cod_elemento_despesa</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_elemento_despesa</name>
-        <rename>nome_elemento_despesa</rename>
-        <type>None</type>
-        <length>45</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>cod_modalidade</name>
-        <rename>cod_modalidade</rename>
-        <type>None</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>nome_modalidade</name>
-        <rename>nome_modalidade</rename>
-        <type>None</type>
-        <length>62</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>valor_empenhado</name>
-        <rename>valor_empenhado</rename>
-        <type>Number</type>
-        <length>11</length>
-        <precision>2</precision>
-        <conversion_mask>#,##0.00</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>valor_liquidado</name>
-        <rename>valor_liquidado</rename>
-        <type>Number</type>
-        <length>11</length>
-        <precision>2</precision>
-        <conversion_mask>#,##0.00</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>valor_pago</name>
-        <rename>valor_pago</rename>
-        <type>Number</type>
-        <length>11</length>
-        <precision>2</precision>
-        <conversion_mask>#,##0.00</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>valor_restos_inscritos</name>
-        <rename>valor_restos_inscritos</rename>
-        <type>Number</type>
-        <length>15</length>
-        <precision>2</precision>
-        <conversion_mask>#,##0.00</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>valor_restos_cancelado</name>
-        <rename>valor_restos_cancelado</rename>
-        <type>Number</type>
-        <length>7</length>
-        <precision>2</precision>
-        <conversion_mask>#,##0.00</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>valor_restos_pagos</name>
-        <rename>valor_restos_pagos</rename>
-        <type>Number</type>
-        <length>10</length>
-        <precision>2</precision>
-        <conversion_mask>#,##0.00</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
+      </remove>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -2016,14 +1721,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
-      <yloc>100</yloc>
+      <xloc>1275</xloc>
+      <yloc>150</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>User defined Java expression</name>
-    <type>Janino</type>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2032,54 +1737,145 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <formula>
-      <field_name>uf_tratada</field_name>
-      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : uf.trim()</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>tipo_gasto</field_name>
-      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : "Regional"</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>municipio_tratado</field_name>
-      <formula_string>(municipio == null || municipio.trim().isEmpty()) ? "Nacional" : municipio.trim()</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>ano_emenda</field_name>
-      <formula_string>(cod_emenda != null &amp;&amp; cod_emenda.trim().length() >= 4) ? cod_emenda.trim().substring(0,4) : "Desconhecido"</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>tipo_valor</field_name>
-      <formula_string>valor_empenhado &lt; 1.0 ? "Valor Simbólico" : "Valor Relevante"</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>status_registro</field_name>
-      <formula_string>valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Sem execução" : valor_empenhado == 0 &amp;&amp; valor_liquidado > 0 ? "Execução sem empenho" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Empenhado não liquidado" : valor_empenhado > 0 &amp;&amp; valor_liquidado > 0 &amp;&amp; valor_pago == 0 ? "Liquidado não pago" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago > 0 ? "Pago sem liquidação" : "Execução completa"</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
+    <fields>
+      <field>
+        <name>ano_mes</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_orgao_subordinado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_acao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_acao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>uf_tratada</name>
+        <rename>uf</rename>
+      </field>
+      <field>
+        <name>municipio_tratado</name>
+        <rename>municipio</rename>
+      </field>
+      <field>
+        <name>cod_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_autor_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ano_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_modalidade</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_empenhado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_liquidado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_pago</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_restos_inscritos</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_restos_cancelado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_restos_pagos</name>
+        <rename/>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+        <rename/>
+      </field>
+      <field>
+        <name>status_registro</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -2089,12 +1885,24 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1200</xloc>
-      <yloc>100</yloc>
+      <xloc>1475</xloc>
+      <yloc>150</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
+    <error>
+      <source_step>User defined Java expression</source_step>
+      <target_step/>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename>nr_erros</nr_valuename>
+      <descriptions_valuename>descricao_erros</descriptions_valuename>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
