@@ -437,13 +437,8 @@
   </notepads>
   <order>
     <hop>
-      <from>padroniza valores </from>
-      <to>User defined Java expression</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>padroniza nomes das colunas</from>
-      <to>padroniza valores </to>
+      <to>padroniza registros</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -452,18 +447,123 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>User defined Java expression</from>
-      <to>Select values</to>
+      <from>cria regras </from>
+      <to>remove colunas: UF e municipio</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>Select values 2</to>
+      <from>remove colunas: UF e municipio</from>
+      <to>dim_geografica</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>CSV file input</from>
       <to>altera os valores para number</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>remove colunas: UF e municipio</from>
+      <to>dim_tempo</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_tempo</from>
+      <to>separa ano do mes, e cria trimestre</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>separa ano do mes, e cria trimestre</from>
+      <to>Unique rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows</from>
+      <to>adiciona surrogate keys</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>adiciona surrogate keys</from>
+      <to>remove coluna inicial</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_geografica</from>
+      <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 2</from>
+      <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
+      <to>Unique rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows 2</from>
+      <to>adiciona surrogate kay</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>adiciona surrogate kay</from>
+      <to>organiza</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>remove colunas: UF e municipio</from>
+      <to>dim_despesas</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_despesas</from>
+      <to>Sort rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2</from>
+      <to>Unique rows 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows 3</from>
+      <to>adiciona surrogate key</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>adiciona surrogate key</from>
+      <to>Select values 4</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>remove colunas: UF e municipio</from>
+      <to>dim_emenda</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>padroniza registros</from>
+      <to>cria regras </to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_emenda</from>
+      <to>trata nulos</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>trata nulos</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Sort rows 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 3</from>
+      <to>Unique rows 4</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -850,6 +950,429 @@
     </GUI>
   </step>
   <step>
+    <name>dim_tempo</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>ano_mes</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>uf</name>
+      </field>
+      <field>
+        <name>municipio</name>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1000</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>municipio</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>uf</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1000</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>ano_mes</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 2</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>uf</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>municipio</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1000</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>adiciona surrogate keys</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_tempo</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>altera os valores para number</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>Valor Empenhado (R$)</name>
+        <rename>Valor Empenhado (R$)</rename>
+        <type>Number</type>
+        <length>11</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Liquidado (R$)</name>
+        <rename>Valor Liquidado (R$)</rename>
+        <type>Number</type>
+        <length>11</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Pago (R$)</name>
+        <rename>Valor Pago (R$)</rename>
+        <type>Number</type>
+        <length>11</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Restos a Pagar Inscritos (R$)</name>
+        <rename>Valor Restos a Pagar Inscritos (R$)</rename>
+        <type>Number</type>
+        <length>15</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Restos a Pagar Cancelado (R$)</name>
+        <rename>Valor Restos a Pagar Cancelado (R$)</rename>
+        <type>Number</type>
+        <length>7</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>Valor Restos a Pagar Pagos (R$)</name>
+        <rename>Valor Restos a Pagar Pagos (R$)</rename>
+        <type>Number</type>
+        <length>10</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>200</xloc>
+      <yloc>150</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>cria regras </name>
+    <type>Janino</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>uf_tratada</field_name>
+      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : uf.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>tipo_gasto</field_name>
+      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : "Regional"</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>ano_emenda</field_name>
+      <formula_string>(cod_autor_emenda != null &amp;&amp; cod_autor_emenda.trim().length() >= 4) ? cod_autor_emenda.trim().substring(0,4) : "Desconhecido"</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>status_registro</field_name>
+      <formula_string>valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_pagos != 0 ? "Pago em outro periodo" : valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_cancelado != 0 ? "Cancelado sem execucao" : valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Sem execucao" : valor_empenhado == 0 &amp;&amp; valor_liquidado > 0 ? "Execucao sem empenho/periodo anterior" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_inscritos > 0 ? "Empenhado com restos inscritos" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Empenhado nao liquidado" : valor_empenhado > 0 &amp;&amp; valor_liquidado > 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_pagos > 0 ? "Liquidado pago em outro periodo" : valor_empenhado > 0 &amp;&amp; valor_liquidado > 0 &amp;&amp; valor_pago == 0 ? "Liquidado nao pago" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago > 0 ? "Pago sem liquidacao/inconsistencia" : valor_pago > 0 &amp;&amp; valor_pago &lt; valor_liquidado &amp;&amp; valor_restos_cancelado > 0 ? "Pago parcial com cancelamento" : valor_pago > 0 &amp;&amp; valor_pago &lt; valor_liquidado ? "Pago parcial" : valor_pago >= valor_liquidado &amp;&amp; valor_restos_inscritos > 0 ? "Execucao completa com restos pendentes" : "Execucao completa"</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>municipio_tratado</field_name>
+      <formula_string>(uf == null || uf.trim().isEmpty()) &amp;&amp; (municipio == null || municipio.trim().isEmpty()) ? "Nacional" : (uf != null &amp;&amp; !uf.trim().isEmpty()) &amp;&amp; (municipio == null || municipio.trim().isEmpty()) ? "Desconhecido" : municipio.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>700</xloc>
+      <yloc>150</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>padroniza nomes das colunas</name>
     <type>SelectValues</type>
     <description/>
@@ -923,7 +1446,7 @@
       </field>
       <field>
         <name>Código Autor Emenda</name>
-        <rename>cod_emenda</rename>
+        <rename>cod_autor_emenda</rename>
       </field>
       <field>
         <name>Nome Autor Emenda</name>
@@ -996,16 +1519,16 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>550</xloc>
+      <xloc>375</xloc>
       <yloc>150</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>padroniza valores </name>
+    <name>padroniza registros</name>
     <type>StringOperations</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1095,11 +1618,11 @@
         <in_stream_name>nome_funcao</in_stream_name>
         <out_stream_name/>
         <trim_type>none</trim_type>
-        <lower_upper>none</lower_upper>
+        <lower_upper>lower</lower_upper>
         <padding_type>none</padding_type>
         <pad_char/>
         <pad_len/>
-        <init_cap>N</init_cap>
+        <init_cap>S</init_cap>
         <mask_xml>None</mask_xml>
         <digits>none</digits>
         <remove_special_characters>none</remove_special_characters>
@@ -1121,11 +1644,11 @@
         <in_stream_name>nome_subfuncao</in_stream_name>
         <out_stream_name/>
         <trim_type>none</trim_type>
-        <lower_upper>none</lower_upper>
+        <lower_upper>lower</lower_upper>
         <padding_type>none</padding_type>
         <pad_char/>
         <pad_len/>
-        <init_cap>N</init_cap>
+        <init_cap>S</init_cap>
         <mask_xml>None</mask_xml>
         <digits>none</digits>
         <remove_special_characters>none</remove_special_characters>
@@ -1199,17 +1722,17 @@
         <in_stream_name>municipio</in_stream_name>
         <out_stream_name/>
         <trim_type>none</trim_type>
-        <lower_upper>none</lower_upper>
+        <lower_upper>lower</lower_upper>
         <padding_type>none</padding_type>
         <pad_char/>
         <pad_len/>
-        <init_cap>N</init_cap>
+        <init_cap>S</init_cap>
         <mask_xml>None</mask_xml>
         <digits>none</digits>
         <remove_special_characters>none</remove_special_characters>
       </field>
       <field>
-        <in_stream_name>cod_emenda</in_stream_name>
+        <in_stream_name>cod_autor_emenda</in_stream_name>
         <out_stream_name/>
         <trim_type>none</trim_type>
         <lower_upper>none</lower_upper>
@@ -1348,78 +1871,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>775</xloc>
+      <xloc>550</xloc>
       <yloc>150</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>User defined Java expression</name>
-    <type>Janino</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <formula>
-      <field_name>uf_tratada</field_name>
-      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : uf.trim()</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>tipo_gasto</field_name>
-      <formula_string>(uf == null || uf.trim().isEmpty()) ? "Nacional" : "Regional"</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>municipio_tratado</field_name>
-      <formula_string>(municipio == null || municipio.trim().isEmpty()) ? "Nacional" : municipio.trim()</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>ano_emenda</field_name>
-      <formula_string>(cod_emenda != null &amp;&amp; cod_emenda.trim().length() >= 4) ? cod_emenda.trim().substring(0,4) : "Desconhecido"</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>status_registro</field_name>
-      <formula_string>valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_pagos != 0 ? "Pago em outro periodo" : valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_cancelado != 0 ? "Cancelado sem execucao" : valor_empenhado == 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Sem execucao" : valor_empenhado == 0 &amp;&amp; valor_liquidado > 0 ? "Execucao sem empenho/periodo anterior" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_inscritos > 0 ? "Empenhado com restos inscritos" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago == 0 ? "Empenhado nao liquidado" : valor_empenhado > 0 &amp;&amp; valor_liquidado > 0 &amp;&amp; valor_pago == 0 &amp;&amp; valor_restos_pagos > 0 ? "Liquidado pago em outro periodo" : valor_empenhado > 0 &amp;&amp; valor_liquidado > 0 &amp;&amp; valor_pago == 0 ? "Liquidado nao pago" : valor_empenhado > 0 &amp;&amp; valor_liquidado == 0 &amp;&amp; valor_pago > 0 ? "Pago sem liquidacao/inconsistencia" : valor_pago > 0 &amp;&amp; valor_pago &lt; valor_liquidado &amp;&amp; valor_restos_cancelado > 0 ? "Pago parcial com cancelamento" : valor_pago > 0 &amp;&amp; valor_pago &lt; valor_liquidado ? "Pago parcial" : valor_pago >= valor_liquidado &amp;&amp; valor_restos_inscritos > 0 ? "Execucao completa com restos pendentes" : "Execucao completa"</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1000</xloc>
-      <yloc>150</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>altera os valores para number</name>
+    <name>remove coluna inicial</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1430,109 +1888,19 @@
       <schema_name/>
     </partitioning>
     <fields>
+      <field>
+        <name>sk_tempo</name>
+      </field>
+      <field>
+        <name>ano</name>
+      </field>
+      <field>
+        <name>mes</name>
+      </field>
+      <field>
+        <name>trimestre</name>
+      </field>
       <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>Valor Empenhado (R$)</name>
-        <rename>Valor Empenhado (R$)</rename>
-        <type>Number</type>
-        <length>11</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Valor Liquidado (R$)</name>
-        <rename>Valor Liquidado (R$)</rename>
-        <type>Number</type>
-        <length>11</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Valor Pago (R$)</name>
-        <rename>Valor Pago (R$)</rename>
-        <type>Number</type>
-        <length>11</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Valor Restos a Pagar Inscritos (R$)</name>
-        <rename>Valor Restos a Pagar Inscritos (R$)</rename>
-        <type>Number</type>
-        <length>15</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Valor Restos a Pagar Cancelado (R$)</name>
-        <rename>Valor Restos a Pagar Cancelado (R$)</rename>
-        <type>Number</type>
-        <length>7</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>Valor Restos a Pagar Pagos (R$)</name>
-        <rename>Valor Restos a Pagar Pagos (R$)</rename>
-        <type>Number</type>
-        <length>10</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1543,8 +1911,707 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>375</xloc>
+      <xloc>875</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>remove colunas: UF e municipio</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>ano_mes</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_orgao_subordinado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_acao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_acao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>uf</name>
+        <rename/>
+      </field>
+      <field>
+        <name>municipio</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_autor_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_autor_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_modalidade</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_empenhado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_liquidado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_pago</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_restos_inscritos</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_restos_cancelado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>valor_restos_pagos</name>
+        <rename/>
+      </field>
+      <field>
+        <name>uf_tratada</name>
+        <rename/>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ano_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>status_registro</name>
+        <rename/>
+      </field>
+      <field>
+        <name>municipio_tratado</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <remove>
+        <name>uf</name>
+      </remove>
+      <remove>
+        <name>municipio</name>
+      </remove>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
       <yloc>150</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_geografica</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>uf_tratada</name>
+        <rename>uf</rename>
+      </field>
+      <field>
+        <name>municipio_tratado</name>
+        <rename>municipio</rename>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>975</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>separa ano do mes, e cria trimestre</name>
+    <type>Janino</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>ano</field_name>
+      <formula_string>Integer.parseInt(ano_mes.substring(0, 4))</formula_string>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>mes</field_name>
+      <formula_string>Integer.parseInt(ano_mes.substring(5, 7))</formula_string>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>trimestre</field_name>
+      <formula_string>(Integer.parseInt(ano_mes.substring(5, 7)) - 1) / 3 + 1</formula_string>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>adiciona surrogate kay</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_geo</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1000</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>organiza</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_geo</name>
+        <rename/>
+      </field>
+      <field>
+        <name>uf</name>
+        <rename/>
+      </field>
+      <field>
+        <name>municipio</name>
+        <rename/>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1000</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_despesas</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cod_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_modalidade</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>775</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>cod_categoria_economica</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>750</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 3</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>cod_categoria_economica</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>750</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>adiciona surrogate key</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_despesa</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>750</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 4</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_categoria_economica</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_grupo_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_elemento_despesa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_modalidade</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>750</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_emenda</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cod_autor_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_autor_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ano_emenda</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>trata nulos</name>
+    <type>Janino</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>cod_autor_tratado</field_name>
+      <formula_string>cod_autor_emenda == null || cod_autor_emenda.trim().isEmpty() ? "0" : cod_autor_emenda.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>nome_autor_emenda_tra</field_name>
+      <formula_string>nome_autor_emenda == null || nome_autor_emenda.trim().isEmpty() ? "Sem Emenda" : nome_autor_emenda.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>375</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1561,156 +2628,27 @@
     </partitioning>
     <fields>
       <field>
-        <name>ano_mes</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_orgao_subordinado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_orgao_subordinado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_acao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_acao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>uf</name>
-        <rename/>
-      </field>
-      <field>
-        <name>municipio</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_emenda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_autor_emenda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_modalidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_modalidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_empenhado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_liquidado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_pago</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_restos_inscritos</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_restos_cancelado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_restos_pagos</name>
-        <rename/>
-      </field>
-      <field>
-        <name>uf_tratada</name>
-        <rename/>
-      </field>
-      <field>
-        <name>tipo_gasto</name>
-        <rename/>
-      </field>
-      <field>
-        <name>municipio_tratado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ano_emenda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>status_registro</name>
-        <rename/>
+        <name>nome_autor_emenda_tra</name>
+        <rename>nome_autor_emenda</rename>
       </field>
       <select_unspecified>N</select_unspecified>
-      <remove>
-        <name>uf</name>
-      </remove>
-      <remove>
-        <name>municipio</name>
-      </remove>
+      <meta>
+        <name>nome_autor_emenda</name>
+        <rename>nome_autor_emenda</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1721,14 +2659,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1275</xloc>
-      <yloc>150</yloc>
+      <xloc>1075</xloc>
+      <yloc>475</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
+    <name>Sort rows 3</name>
+    <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1737,144 +2675,22 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>10000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>ano_mes</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_orgao_subordinado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_orgao_subordinado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_acao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_acao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>uf_tratada</name>
-        <rename>uf</rename>
-      </field>
-      <field>
-        <name>municipio_tratado</name>
-        <rename>municipio</rename>
-      </field>
-      <field>
-        <name>cod_emenda</name>
-        <rename/>
-      </field>
-      <field>
         <name>nome_autor_emenda</name>
-        <rename/>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
       </field>
-      <field>
-        <name>ano_emenda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_modalidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_modalidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_empenhado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_liquidado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_pago</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_restos_inscritos</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_restos_cancelado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>valor_restos_pagos</name>
-        <rename/>
-      </field>
-      <field>
-        <name>tipo_gasto</name>
-        <rename/>
-      </field>
-      <field>
-        <name>status_registro</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1885,14 +2701,49 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1475</xloc>
-      <yloc>150</yloc>
+      <xloc>1075</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 4</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>nome_autor_emenda</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>700</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
     <error>
-      <source_step>User defined Java expression</source_step>
+      <source_step>cria regras </source_step>
       <target_step/>
       <is_enabled>Y</is_enabled>
       <nr_valuename>nr_erros</nr_valuename>
