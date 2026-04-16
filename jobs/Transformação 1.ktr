@@ -553,17 +553,92 @@
     </hop>
     <hop>
       <from>trata nulos</from>
-      <to>Select values</to>
+      <to>renomear coluna</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
+      <from>renomear coluna</from>
       <to>Sort rows 3</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Sort rows 3</from>
       <to>Unique rows 4</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows 4</from>
+      <to>trata nome</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>trata nome</from>
+      <to>Add sequence</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add sequence</from>
+      <to>Split fields</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Split fields</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>remove colunas: UF e municipio</from>
+      <to>dim_orcamento</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_orcamento</from>
+      <to>Sort rows 4</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 4</from>
+      <to>Unique rows 6</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows 6</from>
+      <to>Add sequence 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add sequence 2</from>
+      <to>Select values 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>remove colunas: UF e municipio</from>
+      <to>dim_orgao</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_orgao</from>
+      <to>User defined Java expression</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>User defined Java expression</from>
+      <to>Sort rows 5</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 5</from>
+      <to>Unique rows 7</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unique rows 7</from>
+      <to>Add sequence 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add sequence 3</from>
+      <to>Select values 5</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -950,7 +1025,7 @@
     </GUI>
   </step>
   <step>
-    <name>dim_tempo</name>
+    <name>renomear coluna</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -962,10 +1037,27 @@
     </partitioning>
     <fields>
       <field>
-        <name>ano_mes</name>
-        <rename/>
+        <name>nome_autor_emenda_tra</name>
+        <rename>nome_autor_emenda</rename>
       </field>
       <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>nome_autor_emenda</name>
+        <rename>nome_autor_emenda</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -976,8 +1068,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>875</xloc>
-      <yloc>275</yloc>
+      <xloc>1075</xloc>
+      <yloc>475</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1013,8 +1105,63 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1000</xloc>
+      <xloc>975</xloc>
       <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 4</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_despesa</name>
+      </field>
+      <field>
+        <name>cod_categoria_economica</name>
+      </field>
+      <field>
+        <name>nome_categoria_economica</name>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+      </field>
+      <field>
+        <name>nome_grupo_despesa</name>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+      </field>
+      <field>
+        <name>nome_elemento_despesa</name>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+      </field>
+      <field>
+        <name>nome_modalidade</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>775</xloc>
+      <yloc>700</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1063,8 +1210,116 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1000</xloc>
+      <xloc>975</xloc>
       <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>cod_categoria_economica</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>775</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 3</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>10000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>nome_autor_emenda</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>600</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1137,7 +1392,159 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1000</xloc>
+      <xloc>975</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 3</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>cod_categoria_economica</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>775</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 4</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>nome_autor_emenda</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>adiciona surrogate kay</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_geo</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>975</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>adiciona surrogate key</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_despesa</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>775</xloc>
       <yloc>600</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1369,6 +1776,205 @@
     <GUI>
       <xloc>700</xloc>
       <yloc>150</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_despesas</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cod_categoria_economica</name>
+      </field>
+      <field>
+        <name>nome_categoria_economica</name>
+      </field>
+      <field>
+        <name>cod_grupo_despesa</name>
+      </field>
+      <field>
+        <name>nome_grupo_despesa</name>
+      </field>
+      <field>
+        <name>cod_elemento_despesa</name>
+      </field>
+      <field>
+        <name>nome_elemento_despesa</name>
+      </field>
+      <field>
+        <name>cod_modalidade</name>
+      </field>
+      <field>
+        <name>nome_modalidade</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>775</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_emenda</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cod_autor_emenda</name>
+      </field>
+      <field>
+        <name>nome_autor_emenda</name>
+      </field>
+      <field>
+        <name>ano_emenda</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_geografica</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>uf_tratada</name>
+        <rename>uf</rename>
+      </field>
+      <field>
+        <name>municipio_tratado</name>
+        <rename>municipio</rename>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>975</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_tempo</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>ano_mes</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>organiza</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_geo</name>
+      </field>
+      <field>
+        <name>uf</name>
+      </field>
+      <field>
+        <name>municipio</name>
+      </field>
+      <field>
+        <name>tipo_gasto</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>975</xloc>
+      <yloc>800</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1930,147 +2536,111 @@
     <fields>
       <field>
         <name>ano_mes</name>
-        <rename/>
       </field>
       <field>
         <name>cod_orgao_superior</name>
-        <rename/>
       </field>
       <field>
         <name>nome_orgao_superior</name>
-        <rename/>
       </field>
       <field>
         <name>cod_orgao_subordinado</name>
-        <rename/>
       </field>
       <field>
         <name>nome_orgao_subordinado</name>
-        <rename/>
       </field>
       <field>
         <name>cod_funcao</name>
-        <rename/>
       </field>
       <field>
         <name>nome_funcao</name>
-        <rename/>
       </field>
       <field>
         <name>cod_subfuncao</name>
-        <rename/>
       </field>
       <field>
         <name>nome_subfuncao</name>
-        <rename/>
       </field>
       <field>
         <name>cod_programa</name>
-        <rename/>
       </field>
       <field>
         <name>nome_programa</name>
-        <rename/>
       </field>
       <field>
         <name>cod_acao</name>
-        <rename/>
       </field>
       <field>
         <name>nome_acao</name>
-        <rename/>
       </field>
       <field>
         <name>uf</name>
-        <rename/>
       </field>
       <field>
         <name>municipio</name>
-        <rename/>
       </field>
       <field>
         <name>cod_autor_emenda</name>
-        <rename/>
       </field>
       <field>
         <name>nome_autor_emenda</name>
-        <rename/>
       </field>
       <field>
         <name>cod_categoria_economica</name>
-        <rename/>
       </field>
       <field>
         <name>nome_categoria_economica</name>
-        <rename/>
       </field>
       <field>
         <name>cod_grupo_despesa</name>
-        <rename/>
       </field>
       <field>
         <name>nome_grupo_despesa</name>
-        <rename/>
       </field>
       <field>
         <name>cod_elemento_despesa</name>
-        <rename/>
       </field>
       <field>
         <name>nome_elemento_despesa</name>
-        <rename/>
       </field>
       <field>
         <name>cod_modalidade</name>
-        <rename/>
       </field>
       <field>
         <name>nome_modalidade</name>
-        <rename/>
       </field>
       <field>
         <name>valor_empenhado</name>
-        <rename/>
       </field>
       <field>
         <name>valor_liquidado</name>
-        <rename/>
       </field>
       <field>
         <name>valor_pago</name>
-        <rename/>
       </field>
       <field>
         <name>valor_restos_inscritos</name>
-        <rename/>
       </field>
       <field>
         <name>valor_restos_cancelado</name>
-        <rename/>
       </field>
       <field>
         <name>valor_restos_pagos</name>
-        <rename/>
       </field>
       <field>
         <name>uf_tratada</name>
-        <rename/>
       </field>
       <field>
         <name>tipo_gasto</name>
-        <rename/>
       </field>
       <field>
         <name>ano_emenda</name>
-        <rename/>
       </field>
       <field>
         <name>status_registro</name>
-        <rename/>
       </field>
       <field>
         <name>municipio_tratado</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <remove>
@@ -2091,46 +2661,6 @@
     <GUI>
       <xloc>875</xloc>
       <yloc>150</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_geografica</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>uf_tratada</name>
-        <rename>uf</rename>
-      </field>
-      <field>
-        <name>municipio_tratado</name>
-        <rename>municipio</rename>
-      </field>
-      <field>
-        <name>tipo_gasto</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>975</xloc>
-      <yloc>275</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2184,397 +2714,6 @@
     </GUI>
   </step>
   <step>
-    <name>adiciona surrogate kay</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>sk_geo</valuename>
-    <use_database>N</use_database>
-    <connection/>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1000</xloc>
-      <yloc>700</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>organiza</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>sk_geo</name>
-        <rename/>
-      </field>
-      <field>
-        <name>uf</name>
-        <rename/>
-      </field>
-      <field>
-        <name>municipio</name>
-        <rename/>
-      </field>
-      <field>
-        <name>tipo_gasto</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1000</xloc>
-      <yloc>800</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_despesas</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>cod_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_modalidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_modalidade</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>775</xloc>
-      <yloc>275</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>cod_categoria_economica</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>cod_elemento_despesa</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>cod_grupo_despesa</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>cod_modalidade</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>750</xloc>
-      <yloc>375</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unique rows 3</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <count_rows>N</count_rows>
-    <count_field/>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
-    <fields>
-      <field>
-        <name>cod_categoria_economica</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>cod_elemento_despesa</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>cod_grupo_despesa</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>cod_modalidade</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>750</xloc>
-      <yloc>475</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>adiciona surrogate key</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>sk_despesa</valuename>
-    <use_database>N</use_database>
-    <connection/>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>750</xloc>
-      <yloc>600</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 4</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>sk_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_categoria_economica</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_grupo_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_elemento_despesa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_modalidade</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_modalidade</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>750</xloc>
-      <yloc>700</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_emenda</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>cod_autor_emenda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_autor_emenda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ano_emenda</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1075</xloc>
-      <yloc>275</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>trata nulos</name>
     <type>Janino</type>
     <description/>
@@ -2616,6 +2755,137 @@
     </GUI>
   </step>
   <step>
+    <name>trata nome</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>nome_autor_emenda</in_stream_name>
+        <out_stream_name>nome_tratado</out_stream_name>
+        <use_regex>yes</use_regex>
+        <replace_string>\([^)]*\)</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>nome_autor_emenda</in_stream_name>
+        <out_stream_name>numero_emenda</out_stream_name>
+        <use_regex>yes</use_regex>
+        <replace_string>.*Emenda\s*</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add sequence</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_emenda</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>900</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split fields</name>
+    <type>FieldSplitter</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>nome_tratado</splitfield>
+    <delimiter>/</delimiter>
+    <enclosure>/</enclosure>
+    <fields>
+      <field>
+        <name>nome_autor</name>
+        <id/>
+        <idrem>Y</idrem>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <currency/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>none</trimtype>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>1000</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Select values</name>
     <type>SelectValues</type>
     <description/>
@@ -2628,27 +2898,18 @@
     </partitioning>
     <fields>
       <field>
-        <name>nome_autor_emenda_tra</name>
-        <rename>nome_autor_emenda</rename>
+        <name>sk_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_autor</name>
+        <rename/>
+      </field>
+      <field>
+        <name>numero_emenda</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>nome_autor_emenda</name>
-        <rename>nome_autor_emenda</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -2660,13 +2921,13 @@
     </remotesteps>
     <GUI>
       <xloc>1075</xloc>
-      <yloc>475</yloc>
+      <yloc>1100</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 3</name>
-    <type>SortRows</type>
+    <name>dim_orcamento</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2675,17 +2936,101 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <fields>
+      <field>
+        <name>cod_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_acao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_acao</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 4</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
     <directory>%%java.io.tmpdir%%</directory>
     <prefix>out</prefix>
-    <sort_size>10000000</sort_size>
+    <sort_size>1000000</sort_size>
     <free_memory/>
     <compress>N</compress>
     <compress_variable/>
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>nome_autor_emenda</name>
-        <ascending>Y</ascending>
+        <name>cod_acao</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_funcao</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+        <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
@@ -2701,13 +3046,43 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1075</xloc>
-      <yloc>600</yloc>
+      <xloc>675</xloc>
+      <yloc>375</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Unique rows 4</name>
+    <name>Unique rows 5</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>      </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 6</name>
     <type>Unique</type>
     <description/>
     <distribute>Y</distribute>
@@ -2723,7 +3098,19 @@
     <error_description/>
     <fields>
       <field>
-        <name>nome_autor_emenda</name>
+        <name>cod_acao</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_funcao</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
         <case_insensitive>N</case_insensitive>
       </field>
     </fields>
@@ -2736,8 +3123,356 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1075</xloc>
+      <xloc>675</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add sequence 2</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_orcamento</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 3</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_orcamento</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_funcao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_subfuncao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_programa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_acao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_acao</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
       <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_orgao</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cod_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_orgao_subordinado</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>User defined Java expression</name>
+    <type>Janino</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>orgao_sub</field_name>
+      <formula_string>nome_orgao_subordinado == null || nome_orgao_subordinado.trim().isEmpty() ? "Sem informação" : nome_orgao_subordinado.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 5</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 7</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add sequence 3</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_orgao</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 5</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_orgao</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_orgao_superior</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <rename/>
+      </field>
+      <field>
+        <name>orgao_sub</name>
+        <rename>orgao_subordinado</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>800</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
