@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>Transformação 1</name>
+    <name>etl</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -467,16 +468,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>dim_tempo</from>
-      <to>separa ano do mes, e cria trimestre</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>separa ano do mes, e cria trimestre</from>
-      <to>Unique rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Unique rows</from>
       <to>adiciona surrogate keys</to>
       <enabled>Y</enabled>
@@ -484,16 +475,6 @@
     <hop>
       <from>adiciona surrogate keys</from>
       <to>remove coluna inicial</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>dim_geografica</from>
-      <to>Select values 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values 2</from>
-      <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -522,13 +503,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2</from>
-      <to>Unique rows 3</to>
+      <from>Unique rows 3</from>
+      <to>adiciona surrogate key</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unique rows 3</from>
-      <to>adiciona surrogate key</to>
+      <from>Sort rows 2</from>
+      <to>Unique rows 3</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -641,7 +622,127 @@
       <to>Select values 5</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>dim_tempo</from>
+      <to>separa ano do mes, e cria trimestre</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_geografica</from>
+      <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>separa ano do mes, e cria trimestre</from>
+      <to>Unique rows</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
+  <step>
+    <name>Add sequence</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_emenda</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>900</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add sequence 2</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_orcamento</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add sequence 3</name>
+    <type>Sequence</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <valuename>sk_orgao</valuename>
+    <use_database>N</use_database>
+    <connection/>
+    <schema/>
+    <seqname>SEQ_</seqname>
+    <use_counter>Y</use_counter>
+    <counter_name/>
+    <start_at>1</start_at>
+    <increment_by>1</increment_by>
+    <max_value>999999999</max_value>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>CSV file input</name>
     <type>CsvInput</type>
@@ -1025,7 +1126,7 @@
     </GUI>
   </step>
   <step>
-    <name>renomear coluna</name>
+    <name>Select values</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1037,27 +1138,18 @@
     </partitioning>
     <fields>
       <field>
-        <name>nome_autor_emenda_tra</name>
+        <name>sk_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_autor</name>
         <rename>nome_autor_emenda</rename>
       </field>
+      <field>
+        <name>numero_emenda</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>nome_autor_emenda</name>
-        <rename>nome_autor_emenda</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1069,12 +1161,12 @@
     </remotesteps>
     <GUI>
       <xloc>1075</xloc>
-      <yloc>475</yloc>
+      <yloc>1075</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values 2</name>
+    <name>Select values 3</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1086,13 +1178,31 @@
     </partitioning>
     <fields>
       <field>
-        <name>uf</name>
+        <name>sk_orcamento</name>
       </field>
       <field>
-        <name>municipio</name>
+        <name>cod_funcao</name>
       </field>
       <field>
-        <name>tipo_gasto</name>
+        <name>nome_funcao</name>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+      </field>
+      <field>
+        <name>nome_subfuncao</name>
+      </field>
+      <field>
+        <name>cod_programa</name>
+      </field>
+      <field>
+        <name>nome_programa</name>
+      </field>
+      <field>
+        <name>cod_acao</name>
+      </field>
+      <field>
+        <name>nome_acao</name>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1105,8 +1215,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>975</xloc>
-      <yloc>375</yloc>
+      <xloc>675</xloc>
+      <yloc>700</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1166,6 +1276,50 @@
     </GUI>
   </step>
   <step>
+    <name>Select values 5</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_orgao</name>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+      </field>
+      <field>
+        <name>nome_orgao_superior</name>
+      </field>
+      <field>
+        <name>cod_orgao_subordinado</name>
+      </field>
+      <field>
+        <name>orgao_sub</name>
+        <rename>orgao_subordinado</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Sort rows</name>
     <type>SortRows</type>
     <description/>
@@ -1210,8 +1364,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>975</xloc>
-      <yloc>475</yloc>
+      <xloc>875</xloc>
+      <yloc>375</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1324,6 +1478,167 @@
     </GUI>
   </step>
   <step>
+    <name>Sort rows 4</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>cod_acao</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_funcao</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 5</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split fields</name>
+    <type>FieldSplitter</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>nome_tratado</splitfield>
+    <delimiter>/</delimiter>
+    <enclosure>/</enclosure>
+    <fields>
+      <field>
+        <name>nome_autor</name>
+        <id/>
+        <idrem>Y</idrem>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <currency/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>none</trimtype>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>1000</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Unique rows</name>
     <type>Unique</type>
     <description/>
@@ -1353,7 +1668,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>875</xloc>
+      <xloc>975</xloc>
       <yloc>475</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1392,8 +1707,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>975</xloc>
-      <yloc>600</yloc>
+      <xloc>875</xloc>
+      <yloc>475</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1480,6 +1795,125 @@
     </GUI>
   </step>
   <step>
+    <name>Unique rows 6</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>cod_acao</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_funcao</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_programa</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows 7</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>cod_orgao_subordinado</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+      <field>
+        <name>cod_orgao_superior</name>
+        <case_insensitive>N</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>600</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>User defined Java expression</name>
+    <type>Janino</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>orgao_sub</field_name>
+      <formula_string>nome_orgao_subordinado == null || nome_orgao_subordinado.trim().isEmpty() ? "Sem informação" : nome_orgao_subordinado.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>adiciona surrogate kay</name>
     <type>Sequence</type>
     <description/>
@@ -1509,8 +1943,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>975</xloc>
-      <yloc>700</yloc>
+      <xloc>875</xloc>
+      <yloc>600</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1579,7 +2013,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>875</xloc>
+      <xloc>975</xloc>
       <yloc>600</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1902,7 +2336,99 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>975</xloc>
+      <xloc>875</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_orcamento</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cod_funcao</name>
+      </field>
+      <field>
+        <name>nome_funcao</name>
+      </field>
+      <field>
+        <name>cod_subfuncao</name>
+      </field>
+      <field>
+        <name>nome_subfuncao</name>
+      </field>
+      <field>
+        <name>cod_programa</name>
+      </field>
+      <field>
+        <name>nome_programa</name>
+      </field>
+      <field>
+        <name>cod_acao</name>
+      </field>
+      <field>
+        <name>nome_acao</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
+      <yloc>275</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_orgao</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cod_orgao_superior</name>
+      </field>
+      <field>
+        <name>nome_orgao_superior</name>
+      </field>
+      <field>
+        <name>cod_orgao_subordinado</name>
+      </field>
+      <field>
+        <name>nome_orgao_subordinado</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
       <yloc>275</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1933,7 +2459,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>875</xloc>
+      <xloc>975</xloc>
       <yloc>275</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1973,8 +2499,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>975</xloc>
-      <yloc>800</yloc>
+      <xloc>875</xloc>
+      <yloc>700</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2517,7 +3043,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>875</xloc>
+      <xloc>975</xloc>
       <yloc>700</yloc>
       <draw>Y</draw>
     </GUI>
@@ -2665,6 +3191,55 @@
     </GUI>
   </step>
   <step>
+    <name>renomear coluna</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>nome_autor_emenda_tra</name>
+        <rename>nome_autor_emenda</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>nome_autor_emenda</name>
+        <rename>nome_autor_emenda</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>separa ano do mes, e cria trimestre</name>
     <type>Janino</type>
     <description/>
@@ -2708,48 +3283,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>875</xloc>
-      <yloc>375</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>trata nulos</name>
-    <type>Janino</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <formula>
-      <field_name>cod_autor_tratado</field_name>
-      <formula_string>cod_autor_emenda == null || cod_autor_emenda.trim().isEmpty() ? "0" : cod_autor_emenda.trim()</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <formula>
-      <field_name>nome_autor_emenda_tra</field_name>
-      <formula_string>nome_autor_emenda == null || nome_autor_emenda.trim().isEmpty() ? "Sem Emenda" : nome_autor_emenda.trim()</formula_string>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <replace_field/>
-    </formula>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1075</xloc>
+      <xloc>975</xloc>
       <yloc>375</yloc>
       <draw>Y</draw>
     </GUI>
@@ -2806,473 +3340,7 @@
     </GUI>
   </step>
   <step>
-    <name>Add sequence</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>sk_emenda</valuename>
-    <use_database>N</use_database>
-    <connection/>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1075</xloc>
-      <yloc>900</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split fields</name>
-    <type>FieldSplitter</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <splitfield>nome_tratado</splitfield>
-    <delimiter>/</delimiter>
-    <enclosure>/</enclosure>
-    <fields>
-      <field>
-        <name>nome_autor</name>
-        <id/>
-        <idrem>Y</idrem>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <currency/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>none</trimtype>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1075</xloc>
-      <yloc>1000</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>sk_emenda</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_autor</name>
-        <rename/>
-      </field>
-      <field>
-        <name>numero_emenda</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1075</xloc>
-      <yloc>1100</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_orcamento</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>cod_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_acao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_acao</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>675</xloc>
-      <yloc>275</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 4</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>cod_acao</name>
-        <ascending>N</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>cod_funcao</name>
-        <ascending>N</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>cod_programa</name>
-        <ascending>N</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>cod_subfuncao</name>
-        <ascending>N</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>675</xloc>
-      <yloc>375</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unique rows 5</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <count_rows>N</count_rows>
-    <count_field/>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
-    <fields>      </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>875</xloc>
-      <yloc>375</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unique rows 6</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <count_rows>N</count_rows>
-    <count_field/>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
-    <fields>
-      <field>
-        <name>cod_acao</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>cod_funcao</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>cod_programa</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>cod_subfuncao</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>675</xloc>
-      <yloc>475</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Add sequence 2</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>sk_orcamento</valuename>
-    <use_database>N</use_database>
-    <connection/>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>675</xloc>
-      <yloc>600</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 3</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>sk_orcamento</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_funcao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_subfuncao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_programa</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_acao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_acao</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>675</xloc>
-      <yloc>700</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_orgao</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>cod_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_orgao_subordinado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_orgao_subordinado</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1175</xloc>
-      <yloc>275</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>User defined Java expression</name>
+    <name>trata nulos</name>
     <type>Janino</type>
     <description/>
     <distribute>Y</distribute>
@@ -3283,8 +3351,16 @@
       <schema_name/>
     </partitioning>
     <formula>
-      <field_name>orgao_sub</field_name>
-      <formula_string>nome_orgao_subordinado == null || nome_orgao_subordinado.trim().isEmpty() ? "Sem informação" : nome_orgao_subordinado.trim()</formula_string>
+      <field_name>cod_autor_tratado</field_name>
+      <formula_string>cod_autor_emenda == null || cod_autor_emenda.trim().isEmpty() ? "0" : cod_autor_emenda.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <formula>
+      <field_name>nome_autor_emenda_tra</field_name>
+      <formula_string>nome_autor_emenda == null || nome_autor_emenda.trim().isEmpty() ? "Sem Emenda" : nome_autor_emenda.trim()</formula_string>
       <value_type>String</value_type>
       <value_length>-1</value_length>
       <value_precision>-1</value_precision>
@@ -3299,180 +3375,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1175</xloc>
+      <xloc>1075</xloc>
       <yloc>375</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 5</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>cod_orgao_subordinado</name>
-        <ascending>N</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>cod_orgao_superior</name>
-        <ascending>N</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1175</xloc>
-      <yloc>475</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unique rows 7</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <count_rows>N</count_rows>
-    <count_field/>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
-    <fields>
-      <field>
-        <name>cod_orgao_subordinado</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>cod_orgao_superior</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1175</xloc>
-      <yloc>600</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Add sequence 3</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>sk_orgao</valuename>
-    <use_database>N</use_database>
-    <connection/>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>999999999</max_value>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1175</xloc>
-      <yloc>700</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 5</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>sk_orgao</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>nome_orgao_superior</name>
-        <rename/>
-      </field>
-      <field>
-        <name>cod_orgao_subordinado</name>
-        <rename/>
-      </field>
-      <field>
-        <name>orgao_sub</name>
-        <rename>orgao_subordinado</rename>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1175</xloc>
-      <yloc>800</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
