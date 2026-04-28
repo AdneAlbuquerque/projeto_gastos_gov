@@ -436,6 +436,69 @@
   </info>
   <notepads>
   </notepads>
+  <connection>
+    <name>dw_gastos</name>
+    <server>localhost</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>dw_gastos_gov</database>
+    <port>3306</port>
+    <username>root</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ff228dc6fa8c</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.defaultFetchSize</code>
+        <attribute>500</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCursorFetch</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
       <from>padroniza nomes das colunas</from>
@@ -635,6 +698,46 @@
     <hop>
       <from>separa ano do mes, e cria trimestre</from>
       <to>Unique rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>User defined Java expression 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>User defined Java expression 2</from>
+      <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 3</from>
+      <to>Table output</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Select values 4</from>
+      <to>Table output 2</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>organiza</from>
+      <to>Table output 3</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>remove coluna inicial</from>
+      <to>Table output 4</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Select values 2</from>
+      <to>Table output 5</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Select values 5</from>
+      <to>Table output 6</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -1139,7 +1242,6 @@
     <fields>
       <field>
         <name>sk_emenda</name>
-        <rename/>
       </field>
       <field>
         <name>nome_autor</name>
@@ -1147,7 +1249,6 @@
       </field>
       <field>
         <name>numero_emenda</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3022,15 +3123,19 @@
     <fields>
       <field>
         <name>sk_tempo</name>
+        <rename/>
       </field>
       <field>
         <name>ano</name>
+        <rename/>
       </field>
       <field>
         <name>mes</name>
+        <rename/>
       </field>
       <field>
         <name>trimestre</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3377,6 +3482,479 @@
     <GUI>
       <xloc>1075</xloc>
       <yloc>375</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>User defined Java expression 2</name>
+    <type>Janino</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>numero_emenda_trat</field_name>
+      <formula_string>numero_emenda == null || numero_emenda.trim().isEmpty() ? "Sem Emenda" : numero_emenda.trim()</formula_string>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>1150</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sk_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>nome_autor_emenda</name>
+        <rename/>
+      </field>
+      <field>
+        <name>numero_emenda_trat</name>
+        <rename>numero_emenda</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>1225</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table output</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dw_gastos</connection>
+    <schema>dw_gastos_gov</schema>
+    <table>dim_orcamento</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>sk_orcamento</column_name>
+        <stream_name>sk_orcamento</stream_name>
+      </field>
+      <field>
+        <column_name>cod_funcao</column_name>
+        <stream_name>cod_funcao</stream_name>
+      </field>
+      <field>
+        <column_name>nome_funcao</column_name>
+        <stream_name>nome_funcao</stream_name>
+      </field>
+      <field>
+        <column_name>cod_subfuncao</column_name>
+        <stream_name>cod_subfuncao</stream_name>
+      </field>
+      <field>
+        <column_name>nome_subfuncao</column_name>
+        <stream_name>nome_subfuncao</stream_name>
+      </field>
+      <field>
+        <column_name>cod_programa</column_name>
+        <stream_name>cod_programa</stream_name>
+      </field>
+      <field>
+        <column_name>nome_programa</column_name>
+        <stream_name>nome_programa</stream_name>
+      </field>
+      <field>
+        <column_name>cod_acao</column_name>
+        <stream_name>cod_acao</stream_name>
+      </field>
+      <field>
+        <column_name>nome_acao</column_name>
+        <stream_name>nome_acao</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>675</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table output 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dw_gastos</connection>
+    <schema>dw_gastos_gov</schema>
+    <table>dim_despesa</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>sk_despesa</column_name>
+        <stream_name>sk_despesa</stream_name>
+      </field>
+      <field>
+        <column_name>cod_categoria_economica</column_name>
+        <stream_name>cod_categoria_economica</stream_name>
+      </field>
+      <field>
+        <column_name>nome_categoria_economica</column_name>
+        <stream_name>nome_categoria_economica</stream_name>
+      </field>
+      <field>
+        <column_name>cod_grupo_despesa</column_name>
+        <stream_name>cod_grupo_despesa</stream_name>
+      </field>
+      <field>
+        <column_name>nome_grupo_despesa</column_name>
+        <stream_name>nome_grupo_despesa</stream_name>
+      </field>
+      <field>
+        <column_name>cod_elemento_despesa</column_name>
+        <stream_name>cod_elemento_despesa</stream_name>
+      </field>
+      <field>
+        <column_name>nome_elemento_despesa</column_name>
+        <stream_name>nome_elemento_despesa</stream_name>
+      </field>
+      <field>
+        <column_name>cod_modalidade</column_name>
+        <stream_name>cod_modalidade</stream_name>
+      </field>
+      <field>
+        <column_name>nome_modalidade</column_name>
+        <stream_name>nome_modalidade</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>775</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table output 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dw_gastos</connection>
+    <schema>dw_gastos_gov</schema>
+    <table>dim_geografica</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>sk_geo</column_name>
+        <stream_name>sk_geo</stream_name>
+      </field>
+      <field>
+        <column_name>uf</column_name>
+        <stream_name>uf</stream_name>
+      </field>
+      <field>
+        <column_name>municipio</column_name>
+        <stream_name>municipio</stream_name>
+      </field>
+      <field>
+        <column_name>tipo_gasto</column_name>
+        <stream_name>tipo_gasto</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>875</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table output 4</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dw_gastos</connection>
+    <schema>dw_gastos_gov</schema>
+    <table>dim_tempo</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>sk_tempo</column_name>
+        <stream_name>sk_tempo</stream_name>
+      </field>
+      <field>
+        <column_name>ano</column_name>
+        <stream_name>ano</stream_name>
+      </field>
+      <field>
+        <column_name>mes</column_name>
+        <stream_name>mes</stream_name>
+      </field>
+      <field>
+        <column_name>trimestre</column_name>
+        <stream_name>trimestre</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>975</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table output 5</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dw_gastos</connection>
+    <schema>dw_gastos_gov</schema>
+    <table>dim_emenda</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>sk_emenda</column_name>
+        <stream_name>sk_emenda</stream_name>
+      </field>
+      <field>
+        <column_name>numero_emenda</column_name>
+        <stream_name>numero_emenda</stream_name>
+      </field>
+      <field>
+        <column_name>nome_autor</column_name>
+        <stream_name>nome_autor_emenda</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1075</xloc>
+      <yloc>1350</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table output 6</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dw_gastos</connection>
+    <schema>dw_gastos_gov</schema>
+    <table>dim_orgao</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>sk_orgao</column_name>
+        <stream_name>sk_orgao</stream_name>
+      </field>
+      <field>
+        <column_name>cod_orgao_superior</column_name>
+        <stream_name>cod_orgao_superior</stream_name>
+      </field>
+      <field>
+        <column_name>nome_orgao_superior</column_name>
+        <stream_name>nome_orgao_superior</stream_name>
+      </field>
+      <field>
+        <column_name>cod_orgao_subordinado</column_name>
+        <stream_name>cod_orgao_subordinado</stream_name>
+      </field>
+      <field>
+        <column_name>orgao_subordinado</column_name>
+        <stream_name>orgao_subordinado</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1175</xloc>
+      <yloc>900</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
