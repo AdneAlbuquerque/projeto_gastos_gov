@@ -47,6 +47,7 @@ create table dim_geografica (
 
 create table dim_tempo (
     sk_tempo smallint not null,
+    ano_mes varchar (10),
     ano tinyint not null,
     mes tinyint not null,
     trimestre tinyint not null,
@@ -56,8 +57,7 @@ create table dim_tempo (
 
 create table dim_emenda (
     sk_emenda smallint not null,
-    nome_autor varchar(150) not null,
-    numero_emenda varchar(50) not null,
+    nome_autor_emenda varchar(150) not null,
     
     primary key (sk_emenda)
 );
@@ -70,11 +70,16 @@ create table dim_orgao (
     orgao_subordinado varchar(250) not null,
     
     primary key (sk_orgao)
-);
 
 alter table dim_tempo modify column trimestre varchar(10);
+SELECT COUNT(*) FROM stage_gastos_gov;
 
-TRUNCATE TABLE dim_orgao;
-SELECT COUNT(*) FROM dim_orgao;
+DESCRIBE stage_gastos_gov;
 
-select * from dim_orgao;
+drop TABLE dim_emenda;
+select count(*) from dim_emenda;
+
+ALTER TABLE dim_tempo MODIFY COLUMN ano SMALLINT;
+alter table stage_gastos_gov drop column ano_emenda, drop column numero_emenda;
+select *  from stage_gastos_gov;
+drop table 
